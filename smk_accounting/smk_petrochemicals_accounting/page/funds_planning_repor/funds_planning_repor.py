@@ -63,6 +63,8 @@ def frm_call(date_after_1_day, date_after_10_days):
             total_si_amount += record.get('payment_amount', 0)
             record.due_date = frappe.utils.formatdate(record.due_date, 'dd-mm-yyyy')
 
+        diff = abs(len(si_data) - len(pi_data))
+        diff_array = [i for i in range(diff)]
 
         # Append the data for the current date as a dictionary
         grand_data.append({
@@ -72,14 +74,15 @@ def frm_call(date_after_1_day, date_after_10_days):
             "si_data": si_data,
             "total_si_amount": total_si_amount,
             "pi_records" : len(pi_data),
-            "si_records" : len(si_data) 
+            "si_records" : len(si_data),
+            "diff_array": diff_array
         })
 
         # Move to the next day
         date = add_days(date, 1)
 
     # Print or return the grand_data after loop completion
-    print(grand_data)
+    # print(grand_data)
 
 
 

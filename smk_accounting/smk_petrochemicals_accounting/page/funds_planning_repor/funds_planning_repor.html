@@ -53,6 +53,21 @@
                 </span>
             </div>
             {% endfor %}
+            {% if date_data.si_records - date_data.pi_records > 0 %}
+            {% for i in date_data.diff_array  %}
+                <div class="row" style="line-height:36px; font-size:13px;">
+                    <span style="width:100%; text-align:center;">NA</span>
+                </div>
+            {% endfor %}
+            {%if date_data.pi_records == 0 %}
+            <div class="row">
+                <div style="width: 100%; height: 8px; border-top: 2px dashed gray; margin-top: 8px;"></div>
+            </div>
+            <div class="row">
+                <div style="width: 100%; height: 8px; border-top: 2px dashed gray; margin-top: 44px;"></div>
+            </div>
+            {% endif %}
+            {% endif %}
             {%if date_data.total_pi_amount %}
             <div class="row">
                 <div style="width: 100%; height: 8px; border-top: 2px dashed gray; margin-top: 8px;"></div>
@@ -87,19 +102,20 @@
                 </span>
             </div>
             {% endfor %}
-            {% diff = date_data.pi_records - date_data.si_records %}
-            {%if diff > 0 %}
-            {% i= 0%}   
-            <!-- {% while i <diff  %}
-            {% i= i+ 1%}   
+            {% if date_data.pi_records - date_data.si_records > 0 %}
+            {% for i in date_data.diff_array  %}
                 <div class="row" style="line-height:36px; font-size:13px;">
-                    <span style="width: 15%;"></span>
-                    <span style="width: 35%;"></span>
-                    <span style="width: 20%; text-align:end; padding-right:80px;"></span>
-                    <span style="width: 15%;"></span>
-                    <span style="width: 15%;"></span>
+                    <span style="width:100%; text-align:center;">NA</span>
                 </div>
-            {% endwhile %} -->
+            {% endfor %}
+            {%if date_data.si_records == 0 %}
+            <div class="row">
+                <div style="width: 100%; height: 8px; border-top: 2px dashed gray; margin-top: 8px;"></div>
+            </div>
+            <div class="row">
+                <div style="width: 100%; height: 8px; border-top: 2px dashed gray; margin-top: 44px;"></div>
+            </div>
+            {% endif %}
             {% endif %}
             {%if date_data.total_si_amount %}
             <div class="row">
