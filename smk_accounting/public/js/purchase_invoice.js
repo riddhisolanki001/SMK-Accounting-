@@ -45,6 +45,7 @@ frappe.ui.form.on('Purchase Invoice', {
         }
         else {
             if (frm.doc.custom_purchase_type == "CHA"){
+                frm.set_value("naming_series", "PI/CHA/.FY./.#####");
                 frm.set_df_property('supplier', 'label', `Forwarder`);
                 frm.set_query("supplier", function() {
                     return {
@@ -63,6 +64,11 @@ frappe.ui.form.on('Purchase Invoice', {
                         }
                     };
                 });
+                if (frm.doc.custom_purchase_type == "Local"){
+                    frm.set_value("naming_series", "PI/LO/.FY./.#####");
+                } else {
+                    frm.set_value("naming_series", "PI/IM/.FY./.#####");
+                }
             }
         }
     }
