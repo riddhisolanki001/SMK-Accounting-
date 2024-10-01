@@ -2,7 +2,7 @@ import frappe
 from frappe.utils import add_days
 
 @frappe.whitelist()
-def frm_call(date_after_1_day, date_after_10_days):
+def make_data(date_after_1_day, date_after_10_days):
     grand_data = []
 
     # Initialize the date variable to start from date_after_1_day
@@ -24,7 +24,7 @@ def frm_call(date_after_1_day, date_after_10_days):
                 `tabPayment Schedule` AS PS ON
                 PI.name = PS.parent
             WHERE
-                PI.docstatus = 0 AND
+                PI.docstatus = 1 AND
                 PS.due_date = %s
         """
         filters = (date,)
@@ -55,7 +55,7 @@ def frm_call(date_after_1_day, date_after_10_days):
                 PS.due_date = %s
         """
 
-        # Fetch Sales Invoice data for the current date
+        # Fetch Sales Invoice data for the date
         si_data = frappe.db.sql(si_query, filters, as_dict=True)
 
         # Calculate the total payment amount for Sales Invoices
@@ -77,78 +77,6 @@ def frm_call(date_after_1_day, date_after_10_days):
             "si_records" : len(si_data),
             "diff_array": diff_array
         })
-
         # Move to the next day
         date = add_days(date, 1)
-
-    # Print or return the grand_data after loop completion
-    # print(grand_data)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # for pData in procurementData:
-    #     pName = pData.name
-    #     pData.date = (pData.date).strftime("%d-%m-%Y")
-    #     query = f"""
-    #         SELECT
-    #             PI.item,
-    #             PI.quantity,
-    #             PI.uom
-    #         FROM
-    #             `tabProcurement Item` AS PI
-    #         WHERE
-    #             (%s = '' OR PI.item = %s) AND
-    #             PI.parent = %s
-    #         ORDER BY
-    #             PI.item ASC
-    #     """
-    #     filters = (item_name, item_name, pName)
-    #     procurementItemData = frappe.db.sql(query, filters, as_dict=True)
-    #     for pIData in procurementItemData:
-    #         pData["pIData"] = procurementItemData
-    #         pItem = pIData.item
-    #         query = f"""
-    #             SELECT
-    #                 PR.posting_date as grn_date,
-    #                 PR.name as grn_no,
-    #                 PRI.amount,
-    #                 PR.custom_total_duty,
-    #                 PRI.qty,
-    #                 PR.bill_of_entry_number,
-    #                 PR.custom_bill_date
-    #             FROM
-    #                 `tabPurchase Receipt` AS PR
-    #             JOIN
-    #                 `tabPurchase Receipt Item` AS PRI ON
-    #                 PR.name = PRI.parent
-    #             WHERE
-    #                 PR.custom_procurement_id = %s AND
-    #                 PR.docstatus = 1 AND
-    #                 (PR.posting_date BETWEEN %s AND %s OR  %s = '' OR %s = '') AND
-    #                 PRI.item_code = %s
-    #             ORDER BY
-    #                 grn_date DESC
-    #         """
-    #         filters = (pName, fromDate, toDate, fromDate, toDate, pItem)
-            
-    #         purchaseReceiptData = frappe.db.sql(query, filters, as_dict=True)
-    #         for pRData in purchaseReceiptData:
-    #             pRData.grn_date = frappe.utils.formatdate(pRData.grn_date, 'dd-mm-yyyy')
-    #             pRData.custom_bill_date = (pRData.custom_bill_date).strftime("%d.%m.%Y")
-    #             pIData["purchaseReceiptData"] = purchaseReceiptData
-    #     grand_data.append(pData)
     return grand_data
