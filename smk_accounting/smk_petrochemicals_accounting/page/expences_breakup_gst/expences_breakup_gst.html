@@ -8,12 +8,9 @@
 <body>
     <div class="container">
         <div class="row" style="color:black;">
-            <span style="width: 33%; font-weight: bold; font-size:x-large;">CLAUSE 44 OF FORM 3CD</span>
-            <!-- <span style="width: 33%;">From: {{date_after_1_day}}</span>
-            <span style="width: 33%;">To: {{date_after_10_days}}</span> -->
+            <span style="font-weight: bold; font-size:x-large;">CLAUSE 44 OF FORM 3CD</span>
             <table style="width: 100%; border-collapse: collapse; text-align: center; margin-top: 20px;">
                 <thead>
-                    <!-- First row with 5 columns -->
                     <tr style="border: 1px solid black; font-weight: bold;">
                         <th style="border: 1px solid black;" rowspan="2">Sr. No.</th>
                         <th style="border: 1px solid black;" rowspan="2">Ledger Name</th>
@@ -21,7 +18,6 @@
                         <th style="border: 1px solid black;" colspan="4">Expenditure in respect of entities registered under GST</th>
                         <th style="border: 1px solid black;" rowspan="2">Expenditure relating to entities not registered under GST</th>
                     </tr>
-                    <!-- Second row with 8 columns -->
                     <tr style="border: 1px solid black; font-weight: bold;">
                         <th style="border: 1px solid black;">Relating to Goods or Services exempt from GST</th>
                         <th style="border: 1px solid black;">Relating to the Entities falling under Composition Scheme</th>
@@ -41,32 +37,34 @@
                         <td style="border: 1px solid black;">(7)</td>
                     </tr>
                     {% sr_no = 1 %}
-                    {% total_amount = eligible_amount = ineligible_amount = 0 %}
-                    {% for category in final_data %}
+                    {% total_amount = eligible_amount = ineligible_amount = reg_supp_amount = unreg_supp_amount = 0 %}
+                    {% for category in data %}
                     <tr style="border: 1px solid black;">
                         <td style="border: 1px solid black;">{{ sr_no }}</td>
                         <td style="border: 1px solid black;">{{category.expense_account}}</td>
                         <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(category.total_amount, "INR")}}</td>
-                        <td style="border: 1px solid black; text-align:end; padding-right:32px;"></td>
-                        <td style="border: 1px solid black; text-align:end; padding-right:32px;"></td>
+                        <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(category.ineligible_amount, "INR")}}</td>
                         <td style="border: 1px solid black; text-align:end; padding-right:32px;"></td>
                         <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(category.eligible_amount, "INR")}}</td>
-                        <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(category.ineligible_amount, "INR")}}</td>
+                        <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(category.reg_supp_amount, "INR")}}</td>
+                        <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(category.unreg_supp_amount, "INR")}}</td>
                     </tr>
                     {% sr_no = sr_no + 1 %}
                     {% total_amount += category.total_amount %}
                     {% eligible_amount += category.eligible_amount %}
-                    {% ineligible_amount = category.ineligible_amount + ineligible_amount %}
+                    {% ineligible_amount += category.ineligible_amount %}
+                    {% reg_supp_amount += category.reg_supp_amount %}
+                    {% unreg_supp_amount += category.unreg_supp_amount %}
                     {% endfor %}
                     <tr style="border: 1px solid black;">
                         <td style="border: 1px solid black;"></td>
                         <td style="border: 1px solid black;">Total Reporting Amount</td>
                         <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(total_amount, "INR")}}</td>
-                        <td style="border: 1px solid black; text-align:end; padding-right:32px;"></td>
-                        <td style="border: 1px solid black; text-align:end; padding-right:32px;"></td>
+                        <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(category.ineligible_amount, "INR")}}</td>
                         <td style="border: 1px solid black; text-align:end; padding-right:32px;"></td>
                         <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(eligible_amount, "INR")}}</td>
-                        <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(category.ineligible_amount, "INR")}}</td>
+                        <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(reg_supp_amount, "INR")}}</td>
+                        <td style="border: 1px solid black; text-align:end; padding-right:32px;">{{format_currency(unreg_supp_amount, "INR")}}</td>
                     </tr>
                 </tbody>
             </table>
