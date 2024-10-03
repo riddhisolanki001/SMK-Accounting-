@@ -1,7 +1,7 @@
-frappe.pages['expences-breakup-gst'].on_page_load = function(wrapper) {
+frappe.pages['expenses-breakup-gst'].on_page_load = function(wrapper) {
     var page = frappe.ui.make_app_page({
         parent: wrapper,
-        title: 'Expences Breakup GST',
+        title: 'Expenses Breakup GST',
         single_column: true
     });
 
@@ -36,7 +36,6 @@ frappe.pages['expences-breakup-gst'].on_page_load = function(wrapper) {
         // Listen for changes in the filter values
         filterField.$input.on('change', function() {
             filter_values[field.fieldname] = filterField.get_value();
-            // Check if both filters have values and fetch the data
             if (filter_values['from'] && filter_values['to']) {
                 fetch_and_render_data(filter_values['from'], filter_values['to']);
             }
@@ -46,7 +45,7 @@ frappe.pages['expences-breakup-gst'].on_page_load = function(wrapper) {
     // Function to fetch and render data based on the filters
     function fetch_and_render_data(from_date, to_date) {
         frappe.call({
-            method: "smk_accounting.smk_petrochemicals_accounting.page.expences_breakup_gst.expences_breakup_gst.make_data",
+            method: "smk_accounting.smk_petrochemicals_accounting.page.expenses_breakup_gst.expenses_breakup_gst.make_data",
             args: {
                 from_date: from_date || '',
                 to_date: to_date || '',
@@ -57,7 +56,7 @@ frappe.pages['expences-breakup-gst'].on_page_load = function(wrapper) {
 
                 // Clear only the data container and render new content
                 $data_container.empty();
-                $(frappe.render_template("expences_breakup_gst", { data })).appendTo($data_container);
+                $(frappe.render_template("expenses_breakup_gst", { data })).appendTo($data_container);
             }
         });
     }
