@@ -2,14 +2,14 @@ import frappe
 from frappe.utils import add_days
 
 @frappe.whitelist()
-def make_data(date_after_1_day, date_after_10_days):
+def make_data(from_date, to_date):
     grand_data = []
 
-    # Initialize the date variable to start from date_after_1_day
-    date = date_after_1_day
+    # Initialize the date variable to start from from_date
+    date = from_date
 
-    # Loop from date_after_1_day to date_after_10_days
-    while date <= date_after_10_days:
+    # Loop from from_date to to_date
+    while date <= to_date:
         total_pi_amount = 0
         total_si_amount = 0
         pi_query = """

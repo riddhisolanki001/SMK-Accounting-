@@ -4,7 +4,7 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2024-09-23 12:59:35.719292",
+ "modified": "2024-10-08 11:04:49.523962",
  "modified_by": "Administrator",
  "module": "SMK Petrochemicals Accounting",
  "name": "funds-planning-repor",
@@ -15,5 +15,5 @@
  "standard": "Yes",
  "style": null,
  "system_page": 0,
- "title": "Funds Planning report for next 10days"
+ "title": "Funds Planning Report"
 }

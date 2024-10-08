@@ -1,8 +1,8 @@
 <div class="container">
     <div class="row" style="font-weight: bold; font-size:x-large; color:black">
         <span style="width: 33%;">Payments vs Remittance List</span>
-        <span style="width: 33%;">From: {{date_after_1_day}}</span>
-        <span style="width: 33%;">To: {{date_after_10_days}}</span>
+        <span style="width: 33%;">From: {{frappe.format(from_date, {"fieldtype": "Date"})}}</span>
+        <span style="width: 33%;">To: {{frappe.format(to_date, {"fieldtype": "Date"})}}</span>
     </div>
 </div>
 
@@ -27,7 +27,7 @@
             <span style="width: 35%;">Remittance from</span>
             <span style="width: 20%;">Amount(INR)</span>
             <span style="width: 15%;">Exp. date</span>
-            <span style="width: 15%;">To Pay</span>
+            <span style="width: 15%;">Sales Person Name</span>
         </div>
         <div class="row">
             <div style="width: 100%; height: 8px; border-top: 2px dashed gray; margin-top: 8px;"></div>
@@ -43,7 +43,7 @@
             <div class="row" style="line-height:36px; font-size:13px;">
                 <span style="width: 15%;"></span>
                 <span style="width: 35%;">{{pi_data.supplier_name}}</span>
-                <span style="width: 20%; text-align:end; padding-right:80px;">{{format_currency(pi_data.payment_amount, "INR")}}</span>
+                <span style="width: 20%; text-align:end; padding-right:28px;">{{format_currency(pi_data.payment_amount, "INR")}}</span>
                 <span style="width: 15%;">{{pi_data.due_date}}</span>
                 <span style="width: 15%;">
                     <input type="number" name="{{pi_data.due_date}}_{{ pi_data.name }}" id="{{pi_data.due_date}}_{{ pi_data.name }}" value="" style="width: 75%; height: 75%">
@@ -72,7 +72,7 @@
             <div class="row" style="line-height:36px; color:black; font-size: 13px;">
                 <span style="width: 15%;"></span>
                 <span style="width: 35%;"></span>
-                <span style="width: 20%; text-align:end; padding-right:80px;">{{format_currency(date_data.total_pi_amount, "INR")}}</span>
+                <span style="width: 20%; text-align:end; padding-right:28px;">{{format_currency(date_data.total_pi_amount, "INR")}}</span>
                 <span style="width: 15%;"></span>
                 <span style="width: 15%;"></span>
             </div>
@@ -92,10 +92,10 @@
             <div class="row" style="line-height:36px; font-size:13px;">
                 <span style="width: 15%;"></span>
                 <span style="width: 35%;">{{si_data.customer_name}}</span>
-                <span style="width: 20%; text-align:end; padding-right:80px;">{{format_currency(si_data.payment_amount, "INR")}}</span>
+                <span style="width: 20%; text-align:end; padding-right:28px;">{{format_currency(si_data.payment_amount, "INR")}}</span>
                 <span style="width: 15%;">{{si_data.due_date}}</span>
                 <span style="width: 15%;">
-                    <input type="number" name="{{si_data.due_date}}_{{ si_data.name }}" id="{{si_data.due_date}}_{{ si_data.name }}" value="" style="width: 75%; height: 75%">
+                    <input type="text" name="{{si_data.due_date}}_{{ si_data.name }}" id="{{si_data.due_date}}_{{ si_data.name }}" value="" style="width: 75%; height: 75%">
                 </span>
             </div>
             {% endfor %}
@@ -121,7 +121,7 @@
             <div class="row" style="line-height:36px; color:black; font-size: 13px;">
                 <span style="width: 15%;"></span>
                 <span style="width: 35%;"></span>
-                <span style="width: 20%; text-align:end; padding-right:80px;">{{format_currency(date_data.total_si_amount, "INR")}}</span>
+                <span style="width: 20%; text-align:end; padding-right:28px;">{{format_currency(date_data.total_si_amount, "INR")}}</span>
                 <span style="width: 15%;"></span>
                 <span style="width: 15%;"></span>
             </div>
