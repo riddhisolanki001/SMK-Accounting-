@@ -51,7 +51,7 @@ def make_data(from_date, to_date):
                 `tabPayment Schedule` AS PS ON
                 SI.name = PS.parent
             WHERE
-                SI.docstatus = 0 AND
+                SI.docstatus = 1 AND
                 PS.due_date = %s
         """
 
