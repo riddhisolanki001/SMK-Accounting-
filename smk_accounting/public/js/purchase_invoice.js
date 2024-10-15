@@ -71,5 +71,25 @@ frappe.ui.form.on('Purchase Invoice', {
                 }
             }
         }
-    }
+    },
+    custom_invoice_type (frm) {
+        if (frm.doc.custom_invoice_type == 'Service') {
+            frm.fields_dict['items'].grid.get_field('item_code').get_query = function(frm, cdt, cdn) {
+                return {
+                    filters: {
+                        item_group: 'Services'
+                    }
+                };
+            };
+        }
+        else {
+            frm.fields_dict['items'].grid.get_field('item_code').get_query = function(frm, cdt, cdn) {
+                return {
+                    filters: {
+                        item_group: ["!=", "Services"]
+                    }
+                };
+            };
+        }
+    },
 });
