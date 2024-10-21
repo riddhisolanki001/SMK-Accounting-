@@ -98,7 +98,7 @@
    "insert_after": "sec_break1",
    "is_system_generated": 0,
    "is_virtual": 0,
-   "label": "Get Taxes and Charges From Purchase Receipts",
+   "label": "Get Taxes and Charges From Vouchers",
    "length": 0,
    "link_filters": null,
    "mandatory_depends_on": null,
