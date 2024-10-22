@@ -70,21 +70,22 @@ frappe.ui.form.on("Landed Cost Voucher", {
     },
 	custom_get_purchase_invoices(frm) {
 		frm.clear_table("custom_purchase_invoices");
+		let promises = [];		
 		frm.doc.purchase_receipts.forEach(pr => {			
 			if (pr.receipt_document_type == 'Purchase Receipt') {
-				frappe.call({
+				let promise = frappe.call({
 					method: "frappe.client.get_list",
 					args: {
 						doctype: "Purchase Invoice",
 						fields: ['posting_date', 'grand_total', 'supplier', 'name'],
-						filters: {'custom_purchase_receipt':pr.receipt_document, 'docstatus':1}
+						filters: {'custom_purchase_receipt': pr.receipt_document, 'docstatus': 1}
 					},
 					callback: function(r) {
 						if (r.message) {
 							console.log(r.message);
 							let purchase_invoice_data = r.message;
 							purchase_invoice_data.forEach(pi => {
-								let row = frm.add_child("custom_purchase_invoices")
+								let row = frm.add_child("custom_purchase_invoices");
 								row.receipt_document_type = 'Purchase Invoice';
 								row.receipt_document = pi.name;
 								row.supplier = pi.supplier;
@@ -95,7 +96,12 @@ frappe.ui.form.on("Landed Cost Voucher", {
 						}
 					}
 				});
+				promises.push(promise);
 			}
+		});
+		// Once all the frappe calls are resolved, call updateTotal
+		Promise.all(promises).then(() => {
+			updateTotal(frm);
 		});
 	},
 	custom_get_taxes_and_charges_from_purchase_receipts(frm) {
@@ -149,6 +155,7 @@ frappe.ui.form.on("Landed Cost Voucher", {
 					// Refresh the field to update the UI
 					frm.refresh_field("taxes");
 					frm.set_value("total_taxes_and_charges", total_taxes_and_charges)
+					updateTotal(frm, cdt, cdn)
 				});
 			}
 		});
@@ -157,17 +164,43 @@ frappe.ui.form.on("Landed Cost Voucher", {
 
 frappe.ui.form.on("Landed Cost Taxes and Charges", {
 	taxes_remove: function (frm, cdt, cdn) {
+		updateTotalCharges(frm, cdt, cdn)
 		updateTotal(frm, cdt, cdn)
 	},
 	amount: function (frm, cdt, cdn) {
+		updateTotalCharges(frm, cdt, cdn)
 		updateTotal(frm, cdt, cdn)
 	},
 });
 
-function updateTotal(frm, cdt, cdn) {
+frappe.ui.form.on("Landed Cost Purchase Receipt", {
+	custom_purchase_invoices_remove: function (frm, cdt, cdn) {
+		updateTotal(frm, cdt, cdn)
+	},
+	purchase_receipts_remove: function (frm, cdt, cdn) {
+		updateTotal(frm, cdt, cdn)
+	},
+	grand_total: function (frm, cdt, cdn) {
+		updateTotal(frm, cdt, cdn)
+	},
+});
+
+function updateTotalCharges(frm, cdt, cdn) {
 	let total_taxes_and_charges = 0;
 	frm.doc.taxes.forEach(tax => {
 		total_taxes_and_charges += tax.amount
 		frm.set_value("total_taxes_and_charges", total_taxes_and_charges)
+	});
+}
+
+function updateTotal(frm, cdt, cdn) {
+	let total = -(frm.doc.total_taxes_and_charges);
+	frm.doc.purchase_receipts.forEach(pr => {
+		total += pr.grand_total
+		frm.set_value("custom_total_cost_from_vouchers", total)
+	});
+	frm.doc.custom_purchase_invoices.forEach(pi => {
+		total += pi.grand_total
+		frm.set_value("custom_total_cost_from_vouchers", total)
 	});
 }
