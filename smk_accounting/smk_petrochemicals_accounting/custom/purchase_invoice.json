@@ -982,7 +982,7 @@
    "is_virtual": 0,
    "label": "Purchase Receipt",
    "length": 0,
-   "link_filters": "[[\"Purchase Receipt\",\"docstatus\",\"=\",\"1\"],[\"Purchase Receipt\",\"custom_lcv_created\",\"=\",1]]",
+   "link_filters": "[[\"Purchase Receipt\",\"docstatus\",\"=\",\"1\"]]",
    "mandatory_depends_on": null,
    "modified": "2024-10-14 11:25:17.327001",
    "modified_by": "Administrator",
